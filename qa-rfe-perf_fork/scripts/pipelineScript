@@ -1,4 +1,5 @@
 node {
   stage 'Run JMeter Test'
-  bat 'C:\\Users\\Siarhei_Sych\\Downloads\\apache-jmeter-5.4.1\\bin\\jmeter.sh -n -t C:\\Users\\Siarhei_Sych\\Documents\\GitHub\\qa-rfe-perf_fork\\scripts -l test.jtl'
+  bat 'C:\\Users\\Siarhei_Sych\\Downloads\\apache-jmeter-5.4.1\\bin\\jmeter.sh -n -t C:\\Users\\Siarhei_Sych\\Documents\\GitHub\\qa-rfe-perf_fork\\scripts\\5_1_RFE_UI_Search_Regular_Search_No_Semantic.jmx
+  -l test.jtl'
 }
