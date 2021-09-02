@@ -1,1 +1,0 @@
-# A repository for storing performance test scripts and test data
