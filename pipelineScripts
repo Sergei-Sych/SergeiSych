@@ -1,4 +1,10 @@
-node {
-  stage 'Run JMeter Test'
-  bat 'C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/jmeter.sh -n -t C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/task/flood_challenger.jmx -Jusers=2 -l test.jtl'
+pipeline {
+    agent any 
+    stages {
+        stage('git') {
+            steps {
+               git branch: 'main', url: 'https://github.com/Sergei-Sych/SergeiSych.git'
+            }
+        }
+    }
 }
