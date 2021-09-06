@@ -6,5 +6,11 @@ pipeline {
                git branch: 'main', url: 'https://github.com/Sergei-Sych/SergeiSych.git'
             }
         }
+        stage('Run Jmeter Test') {
+        steps { 
+               bat '/jmeter -n -t /flood_challenger.jmx -l test.jtl'
+        
+            }
+        }
     }
 }
