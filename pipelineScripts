@@ -12,7 +12,7 @@ pipeline {
             }
         }
         stage('Test Report') {
-        steps {publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'coveragereport', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: ''])
+        steps {publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'Jmeter', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: ''])
         
             }
         }
