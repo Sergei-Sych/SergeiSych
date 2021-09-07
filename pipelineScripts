@@ -8,7 +8,7 @@ pipeline {
         }
         stage('Run Jmeter Test') {
         steps { 
-               bat '/jmeter -n -t /flood_challenger.jmx -l test.jtl'
+               bat 'C:\Users\Siarhei_Sych\Downloads\apache-jmeter-5.4.1\bin\jmeter.sh -n -t C:\Users\Siarhei_Sych\Downloads\apache-jmeter-5.4.1\bin\task\flood_challenger.jmx'
         
             }
         }
