@@ -18,7 +18,7 @@ pipeline {
         post {
             always {
                 script {
-                    def moduleNames = ["app", "core", ...]
+                    def moduleNames = ["app", "core" ]
                     for(i=0; i<moduleNames.size(); i++ ) {
                         publishHTML target: [
                             allowMissing:false,
