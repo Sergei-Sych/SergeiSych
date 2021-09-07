@@ -12,7 +12,7 @@ pipeline {
             }
         }
         stage('Test Report') {
-        steps {publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/report_flood/report', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: ''])
+        steps {publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/report_flood/', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: ''])
         
             }
         }
