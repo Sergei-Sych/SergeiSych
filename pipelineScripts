@@ -12,26 +12,9 @@ pipeline {
             }
         }
         stage('Test Report') {
-        steps {
-            bat 'gradle test'
-        }
-        post {
-            always {
-                script {
-                    def moduleNames = ["app", "core" ]
-                    for(i=0; i<moduleNames.size(); i++ ) {
-                        publishHTML target: [
-                            allowMissing:false,
-                            alwaysLinkToLastBuild: false,
-                            keepAll:true,
-                            reportDir: moduleNames[i] + 'C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/report_flood',
-                            reportFiles: 'index.html',
-                            reportName: 'Test Report:' + moduleNames[i]
-                        ]
-                    }
-                }   
+        steps {publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'C:\\Users\\Siarhei_Sych\\Downloads\\apache-jmeter-5.4.1\\bin\\report_flood', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: ''])
+        
             }
         }
-    }
     }
 }
