@@ -15,11 +15,10 @@ pipeline {
         steps {publishHTML([
         allowMissing: false, 
         alwaysLinkToLastBuild: false,
-        includes: '**/*',
-        keepAll: false, 
-        reportDir: 'coverage/', 
+        keepAll: true, 
+        reportDir: 'report/' + files[i], 
         reportFiles: 'index.html', 
-        reportName: 'HTML Report', 
+        reportName: files[i], 
         reportTitles: ''
         ])
         
