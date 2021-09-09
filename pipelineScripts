@@ -15,7 +15,7 @@ pipeline {
         steps {publishHTML([
         allowMissing: false, 
         alwaysLinkToLastBuild: false,
-        includes: '**/*.png',
+        includes: '**/*',
         keepAll: true, 
         reportDir: 'C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/report_flood/', 
         reportFiles: 'index.html', 
