@@ -11,16 +11,9 @@ pipeline {
                bat 'C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/jmeter.bat -n -t C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/task/flood_challenger.jmx '
             }
         }
-        stage('Test Report') {
-        steps {publishHTML([
-        allowMissing: false, 
-        alwaysLinkToLastBuild: false,
-        includes: '**/*',
-        keepAll: true, 
-        reportDir: 'C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/report_flood/', 
-        reportFiles: 'index.html', 
-        reportName: 'HTML Report', 
-        reportTitles: 'title'
+        stage('Report HTML') {
+        steps { 
+               bat 'jmeter -l C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/task/flood.jtl -e -o C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/report_flood
         ])
         
             }
