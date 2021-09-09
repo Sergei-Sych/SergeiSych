@@ -1,18 +1,28 @@
 pipeline {
-    agent none 
+    agent any 
     stages {
-        stage('Example Build') {
-            agent { docker 'maven:3.8.1-adoptopenjdk-11' } 
+        stage('git') {
             steps {
-                echo 'Hello, Maven'
-                sh 'mvn --version'
+               git branch: 'main', url: 'https://github.com/Sergei-Sych/SergeiSych.git'
             }
         }
-        stage('Example Test') {
-            agent { docker 'openjdk:8-jre' } 
-            steps {
-                echo 'Hello, JDK'
-                sh 'java -version'
+        stage('Run Jmeter Test') {
+        steps { 
+               bat 'C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/jmeter.bat -n -t C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/task/flood_challenger.jmx '
+            }
+        }
+        stage('Test Report') {
+        steps {publishHTML([
+        allowMissing: false, 
+        alwaysLinkToLastBuild: false,
+        includes: '**/*',
+        keepAll: true, 
+        reportDir: 'C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/report_flood/', 
+        reportFiles: 'index.html', 
+        reportName: 'HTML Report', 
+        reportTitles: 'title'
+        ])
+        
             }
         }
     }
