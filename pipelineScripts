@@ -8,7 +8,7 @@ pipeline {
         }
         stage('Run Jmeter Test') {
         steps { 
-               bat 'C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/jmeter.bat -n -t C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/task/flood_challenger.jmx -l C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/task/flood.jtl -e -o C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/report_flood'
+               bat 'C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/jmeter.bat -n -t C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/task/flood_challenger.jmx -l C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/task/flood.jtl -f -e -o C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/report_flood'
             }
         }
     }
