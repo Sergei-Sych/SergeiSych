@@ -16,7 +16,7 @@ pipeline {
         allowMissing: false, 
         alwaysLinkToLastBuild: false,
         keepAll: true, 
-        reportDir: 'C:\Users\Siarhei_Sych\Downloads\apache-jmeter-5.4.1\bin\report_flood' + files[i], 
+        reportDir: 'C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/report_flood' + files[i], 
         reportFiles: 'index.html', 
         reportName: files[i], 
         reportTitles: ''
