@@ -1,5 +1,4 @@
 pipeline {
-    agent { label 'perfomance'}
     parameters {
     choice(choices: ['flood_challenger.jmx'],
     description: '',
