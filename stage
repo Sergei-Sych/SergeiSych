@@ -1,8 +1,5 @@
 pipeline {
-    agent { label 'any' }
-    triggers {
-        parameterizedCron(''''')
-    }
+    agent { label 'perfomance'}
     parameters {
     choice(choices: ['flood_challenger.jmx'],
     description: '',
@@ -10,11 +7,10 @@ pipeline {
     string(defaultValue: "1", description: 'Number of users to simulate.', name: 'VUSERS')
     string(defaultValue: "1", description: 'In seconds.Ramp_up is the amount of time it will take to add all test users (threads) to test execution.', name: 'RAMP_UP')
     string(defaultValue: "10", description: 'Duration of the test execution in seconds', name: 'DURATION')
-    string(defaultValue: "1000", description: 'Think time between transactions, in ms', name: 'THINK_TIME')
-    string(defaultValue: "500", description: 'Think time deviation between transactions, in ms', name: 'THINK_TIME_DEVIATION')
-    string(defaultValue: "https", description: '' , name: 'PROTOCOL')
+    string(defaultValue: "1000", description: 'Think time, in ms', name: 'THINK_TIME')
+    string(defaultValue: "500", description: 'Think time deviation, in ms, name: 'THINK_TIME_DEVIATION')
+    string(defaultValue: "https", description: '' , name: 'ENV_URL')
     string(defaultValue: "challenge.flood.io", description: '' , name: 'ENV_URL')
-    string(defaultValue: "-Xmn3g -Xms6g -Xmx6g" , description: '8 GB RAM MAX' , name: 'JVM_ARGS')
     }
     options {
        timestamps()
@@ -37,7 +33,7 @@ pipeline {
           steps{
              script{
                     bat "export 'JVM_ARGS=${JVM_ARGS}'"
-                    bat "C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/jmeter -n -t ${WORKSPACE}/C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/task/${TEST_NAME}.jmx " +
+                    bat "C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/jmeter -n -t C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/task/${TEST_NAME}.jmx " +
                     "-JVUSERS=$VUSERS -JRAMP_UP=$RAMP_UP -JDURATION=$DURATION -JTHINK_TIME=$THINK_TIME " +
                     "-JTHINK_TIME_DEVIATION=$THINK_TIME_DEVIATION -JPROTOCOL=$PROTOCOL -JENV_URL=$ENV_URL " +
                     "-j ${WORKSPACE}/Reports/jmeter_log.log -l ${WORKSPACE}/Reports/results.jtl " +
