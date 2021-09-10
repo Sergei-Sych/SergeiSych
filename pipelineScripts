@@ -1,7 +1,7 @@
 pipeline {
     agent { label 'perfomance'}
     parameters {
-    choice(choices: ['Name of tests'],
+    choice(choices: ['flood_challenger.jmx'],
     description: '',
     name: 'TEST_NAME')
     string(defaultValue: "1", description: 'Number of users to simulate.', name: 'VUSERS')
