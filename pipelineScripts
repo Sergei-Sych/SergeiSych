@@ -8,7 +8,7 @@ pipeline {
     string(defaultValue: "10", description: 'Duration of the test execution in seconds', name: 'DURATION')
     string(defaultValue: "1000", description: 'Think time, in ms', name: 'THINK_TIME')
     string(defaultValue: "500", description: 'Think time deviation', name: 'THINK_TIME_DEVIATION')
-    string(defaultValue: "https", description: '' , name: 'ENV_URL')
+    string(defaultValue: "https", description: '' , name: 'PROTOCOL')
     string(defaultValue: "challenge.flood.io", description: '' , name: 'ENV_URL')
     }
     options {
