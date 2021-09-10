@@ -4,7 +4,7 @@ pipeline {
         parameterizedCron(''''')
     }
     parameters {
-    choice(choices: ['flood_challenger.jmx'],
+          choice(choices: ['flood_challenger.jmx'],
     description: '',
     name: 'TEST_NAME')
     string(defaultValue: "1", description: 'Number of users to simulate.', name: 'VUSERS')
@@ -25,10 +25,10 @@ pipeline {
        stage('Initialize Build') {
           steps {
               script{
-              deleteDir()
-              git branch: 'main', url: 'https://github.com/Sergei-Sych/SergeiSych.git'
-              bat "mkdir ${WORKSPACE}/Reports"
-              currentBuild.description = TEST_NAME + " - " + ENV_URL + " Environment - " + VUSERS + " Users - " + DURATION + "s DURATION"
+                 deleteDir()
+                 git branch: 'main', url: 'https://github.com/Sergei-Sych/SergeiSych.git'
+                 bat "mkdir ${WORKSPACE}/Reports"
+                 currentBuild.description = TEST_NAME + " - " + ENV_URL + " Environment - " + VUSERS + " Users - " + DURATION + "s DURATION"
               }
           }
        }
@@ -52,11 +52,12 @@ pipeline {
              }
           }
        }
-     }
-     post {
-         always {
+    }
+    post {
+        always {
             script{
                 archiveArtifacts artifacts: 'Reports/**'
            }
          }
       }
+    }
