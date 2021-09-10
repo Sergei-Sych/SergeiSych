@@ -10,7 +10,6 @@ pipeline {
     string(defaultValue: "500", description: 'Think time deviation', name: 'THINK_TIME_DEVIATION')
     string(defaultValue: "https", description: '' , name: 'PROTOCOL')
     string(defaultValue: "challenge.flood.io", description: '' , name: 'ENV_URL')
-    string(defaultValue: "C:\Users\Siarhei_Sych\Downloads\apache-jmeter-5.4.1\bin\jtl", description: '' , name: 'WORKSPACE')
     }
     options {
        timestamps()
