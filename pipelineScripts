@@ -8,7 +8,7 @@ pipeline {
     string(defaultValue: "1", description: 'In seconds.Ramp_up is the amount of time it will take to add all test users (threads) to test execution.', name: 'RAMP_UP')
     string(defaultValue: "10", description: 'Duration of the test execution in seconds', name: 'DURATION')
     string(defaultValue: "1000", description: 'Think time between transactions, in ms', name: 'THINK_TIME')
-    string(defaultValue: "500", description: 'Think time deviation between transactions, in ms, name: 'THINK_TIME_DEVIATION')
+    string(defaultValue: "500", description: 'Think time deviation between transactions, in ms', name: 'THINK_TIME_DEVIATION')
     string(defaultValue: "https", description: '' , name: 'PROTOCOL')
     string(defaultValue: "challenge.flood.io", description: '' , name: 'ENV_URL')
     string(defaultValue: "-Xmn3g -Xms6g -Xmx6g" , description: '8 GB RAM MAX' , name: 'JVM_ARGS')
