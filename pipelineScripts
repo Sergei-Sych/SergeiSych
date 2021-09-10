@@ -21,7 +21,6 @@ pipeline {
        stage('Initialize Build') {
           steps {
               script{
-              deleteDir()
               git branch: 'main', url: 'https://github.com/Sergei-Sych/SergeiSych.git'
               bat "mkdir C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/report_flood/Reports"
               currentBuild.description = TEST_NAME + " - " + ENV_URL + " Environment - " + VUSERS + " Users - " + DURATION + "s DURATION"
