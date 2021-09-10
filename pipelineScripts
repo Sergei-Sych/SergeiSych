@@ -1,4 +1,5 @@
 pipeline {
+agent { label 'any' }
     parameters {
     choice(choices: ['flood_challenger.jmx'],
     description: '',
