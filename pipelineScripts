@@ -1,18 +1,14 @@
 pipeline {
-    agent { label 'any' }
-    triggers {
-        parameterizedCron(''''')
-    }
     parameters {
-          choice(choices: ['flood_challenger.jmx'],
+    choice(choices: ['flood_challenger.jmx'],
     description: '',
     name: 'TEST_NAME')
     string(defaultValue: "1", description: 'Number of users to simulate.', name: 'VUSERS')
     string(defaultValue: "1", description: 'In seconds.Ramp_up is the amount of time it will take to add all test users (threads) to test execution.', name: 'RAMP_UP')
     string(defaultValue: "10", description: 'Duration of the test execution in seconds', name: 'DURATION')
-    string(defaultValue: "10", description: 'Think time , in ms', name: 'THINK_TIME')
-    string(defaultValue: "50", description: 'Think time deviation, in ms', name: 'THINK_TIME_DEVIATION')
-    string(defaultValue: "https", description: '' , name: 'PROTOCOL')
+    string(defaultValue: "1000", description: 'Think time, in ms', name: 'THINK_TIME')
+    string(defaultValue: "500", description: 'Think time deviation', name: 'THINK_TIME_DEVIATION')
+    string(defaultValue: "https", description: '' , name: 'ENV_URL')
     string(defaultValue: "challenge.flood.io", description: '' , name: 'ENV_URL')
     }
     options {
@@ -25,10 +21,10 @@ pipeline {
        stage('Initialize Build') {
           steps {
               script{
-                 deleteDir()
-                 git branch: 'main', url: 'https://github.com/Sergei-Sych/SergeiSych.git'
-                 bat "mkdir ${WORKSPACE}/Reports"
-                 currentBuild.description = TEST_NAME + " - " + ENV_URL + " Environment - " + VUSERS + " Users - " + DURATION + "s DURATION"
+              deleteDir()
+              git branch: 'main', url: 'https://github.com/Sergei-Sych/SergeiSych.git'
+              bat "mkdir ${WORKSPACE}/Reports"
+              currentBuild.description = TEST_NAME + " - " + ENV_URL + " Environment - " + VUSERS + " Users - " + DURATION + "s DURATION"
               }
           }
        }
@@ -41,10 +37,10 @@ pipeline {
                     "-JTHINK_TIME_DEVIATION=$THINK_TIME_DEVIATION -JPROTOCOL=$PROTOCOL -JENV_URL=$ENV_URL " +
                     "-j ${WORKSPACE}/Reports/jmeter_log.log -l ${WORKSPACE}/Reports/results.jtl " +
                     "-e -o ${WORKSPACE}/Reports/HTML_report"
-              }
-           }
-        }
-        stage("Publish results"){
+                }
+             }
+          }
+          stage("Publish results"){
           steps{
              script{
                 perfReport errorFailedThreshold: 10, errorUnstableThreshold: 5,
@@ -52,12 +48,12 @@ pipeline {
              }
           }
        }
-    }
-    post {
-        always {
+     }
+     post {
+         always {
             script{
                 archiveArtifacts artifacts: 'Reports/**'
            }
-         }
+        }
       }
-    }
+   }
