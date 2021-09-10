@@ -35,7 +35,7 @@ pipeline {
                     bat "C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/jmeter.sh -n -t ${WORKSPACE}/C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/task/${TEST_NAME}.jmx "    +
                     "-JVUSERS=$VUSERS -JRAMP_UP=$RAMP_UP -JDURATION=$DURATION -JTHINK_TIME=$THINK_TIME " +
                     "-JTHINK_TIME_DEVIATION=$THINK_TIME_DEVIATION -JPROTOCOL=$PROTOCOL -JENV_URL=$ENV_URL " +
-                    "-Jjmeter.reportgenerator.report_title=${report_name}
+                    "-Jjmeter.reportgenerator.report_title=${report_name} " +
                     "-j ${WORKSPACE}/Reports/${report_name}.log -l ${WORKSPACE}/Reports/${report_name}.jtl " +
                     "-e -o ${WORKSPACE}/Reports/HTML_${report_name}"
                 }
