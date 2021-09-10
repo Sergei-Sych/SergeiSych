@@ -23,7 +23,6 @@ pipeline {
               script{
               deleteDir()
               git branch: 'main', url: 'https://github.com/Sergei-Sych/SergeiSych.git'
-              bat "mkdir ${WORKSPACE}/Reports"
               currentBuild.description = TEST_NAME + " - " + ENV_URL + " Environment - " + VUSERS + " Users - " + DURATION + "s DURATION"
               }
           }
