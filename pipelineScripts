@@ -1,5 +1,5 @@
 pipeline {
-     agent { label 'any' }
+    agent { label 'any' }
     triggers {
         parameterizedCron(''''')
     }
@@ -60,4 +60,3 @@ pipeline {
            }
         }
       }
-   }
