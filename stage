@@ -36,8 +36,8 @@ pipeline {
                     bat "C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/jmeter.bat -n -t C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/task/${TEST_NAME}.jmx " +
                     "-JVUSERS=$VUSERS -JRAMP_UP=$RAMP_UP -JDURATION=$DURATION -JTHINK_TIME=$THINK_TIME " +
                     "-JTHINK_TIME_DEVIATION=$THINK_TIME_DEVIATION -JPROTOCOL=$PROTOCOL -JENV_URL=$ENV_URL " +
-                    "-j task/jmeter_log.log -l task/results.jtl " +
-                    "-e -o flood_report/HTML_report"
+                    "-j C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/jtl/jmeter_log.log -l C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/jtl/results.jtl " +
+                    "-e -o C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/report_flood/HTML_report"
                 }
              }
           }
