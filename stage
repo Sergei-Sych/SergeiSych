@@ -1,7 +1,7 @@
 pipeline {
     agent { label 'prefomance' }
     triggers {
-        parameterizedcron('''''')
+        cron('''''')
     }
     parameters {
     choice(choices: ['flood_challenger.jmx'],
