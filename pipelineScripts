@@ -10,6 +10,7 @@ pipeline {
     string(defaultValue: "500", description: 'Think time deviation', name: 'THINK_TIME_DEVIATION')
     string(defaultValue: "https", description: '' , name: 'PROTOCOL')
     string(defaultValue: "challenge.flood.io", description: '' , name: 'ENV_URL')
+    string(defaultValue: "C:\Users\Siarhei_Sych\Downloads\apache-jmeter-5.4.1\bin\jtl", description: '' , name: 'WORKSPACE')
     }
     options {
        timestamps()
@@ -21,8 +22,9 @@ pipeline {
        stage('Initialize Build') {
           steps {
               script{
+              deleteDir()
               git branch: 'main', url: 'https://github.com/Sergei-Sych/SergeiSych.git'
-              bat "mkdir C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/report_flood/Reports"
+              bat "mkdir ${WORKSPACE}/Reports"
               currentBuild.description = TEST_NAME + " - " + ENV_URL + " Environment - " + VUSERS + " Users - " + DURATION + "s DURATION"
               }
           }
@@ -30,7 +32,7 @@ pipeline {
        stage('Test execution'){
           steps{
              script{
-                    bat "C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/jmeter -n -t C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/task/${TEST_NAME}.jmx " +
+                    bat "C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/jmeter.sh -n -t ${WORKSPACE}/C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/task/${TEST_NAME}.jmx "    +
                     "-JVUSERS=$VUSERS -JRAMP_UP=$RAMP_UP -JDURATION=$DURATION -JTHINK_TIME=$THINK_TIME " +
                     "-JTHINK_TIME_DEVIATION=$THINK_TIME_DEVIATION -JPROTOCOL=$PROTOCOL -JENV_URL=$ENV_URL " +
                     "-j ${WORKSPACE}/Reports/jmeter_log.log -l ${WORKSPACE}/Reports/results.jtl " +
