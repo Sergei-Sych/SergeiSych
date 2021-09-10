@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'perfomance' }
+    agent { label 'any' }
     triggers {
         cron('''''')
     }
