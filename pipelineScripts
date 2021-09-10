@@ -1,5 +1,8 @@
 pipeline {
-agent { label 'Any' }
+    agent { label 'any' }
+    triggers {
+        parameterizedCron(''''')
+    }
     parameters {
     choice(choices: ['flood_challenger.jmx'],
     description: '',
