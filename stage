@@ -1,35 +1,64 @@
 pipeline {
-    agent any 
-    stages {
-        stage('git') {
-            steps {
-               git branch: 'main', url: 'https://github.com/Sergei-Sych/SergeiSych.git'
-            }
-        }
-        stage('Run Jmeter Test') {
-        steps { 
-               bat 'C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/jmeter.bat -n -t C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/task/flood_challenger.jmx '
-            }
-        }
-        stage('Test Report') {
-        steps {publishHTML([
-        allowMissing: false, 
-        alwaysLinkToLastBuild: false,
-        includes: '**/*',
-        keepAll: true, 
-        reportDir: 'C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/report_flood/', 
-        reportFiles: 'index.html', 
-        reportName: 'HTML Report', 
-        reportTitles: 'title'
-        ])
-        
-            }
-        }
+    agent { label 'any' }
+    triggers {
+        parameterizedCron(''''')
     }
-}
-  stage('Report HTML') {
-        steps { 
-               bat 'C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/jmeter.bat -l C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/task/flood.jtl -e -o C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/report_flood'
-        
-            }
+    parameters {
+    choice(choices: ['flood_challenger.jmx'],
+    description: '',
+    name: 'TEST_NAME')
+    string(defaultValue: "1", description: 'Number of users to simulate.', name: 'VUSERS')
+    string(defaultValue: "1", description: 'In seconds.Ramp_up is the amount of time it will take to add all test users (threads) to test execution.', name: 'RAMP_UP')
+    string(defaultValue: "10", description: 'Duration of the test execution in seconds', name: 'DURATION')
+    string(defaultValue: "1000", description: 'Think time between transactions, in ms', name: 'THINK_TIME')
+    string(defaultValue: "500", description: 'Think time deviation between transactions, in ms', name: 'THINK_TIME_DEVIATION')
+    string(defaultValue: "https", description: '' , name: 'PROTOCOL')
+    string(defaultValue: "challenge.flood.io", description: '' , name: 'ENV_URL')
+    string(defaultValue: "-Xmn3g -Xms6g -Xmx6g" , description: '8 GB RAM MAX' , name: 'JVM_ARGS')
+    }
+    options {
+       timestamps()
+       buildDiscarder(logRotator(daysToKeepStr: '30', artifactDaysToKeepStr: '30',
+         numToKeepStr: '20', artifactNumToKeepStr: '20'))
+       disableConcurrentBuilds()
+    }
+    stages {
+       stage('Initialize Build') {
+          steps {
+              script{
+              deleteDir()
+              git branch: 'main', url: 'https://github.com/Sergei-Sych/SergeiSych.git'
+              bat "mkdir ${WORKSPACE}/Reports"
+              currentBuild.description = TEST_NAME + " - " + ENV_URL + " Environment - " + VUSERS + " Users - " + DURATION + "s DURATION"
+              }
+          }
+       }
+       stage('Test execution'){
+          steps{
+             script{
+                    bat "export 'JVM_ARGS=${JVM_ARGS}'"
+                    bat "C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/jmeter -n -t ${WORKSPACE}/C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/task/${TEST_NAME}.jmx " +
+                    "-JVUSERS=$VUSERS -JRAMP_UP=$RAMP_UP -JDURATION=$DURATION -JTHINK_TIME=$THINK_TIME " +
+                    "-JTHINK_TIME_DEVIATION=$THINK_TIME_DEVIATION -JPROTOCOL=$PROTOCOL -JENV_URL=$ENV_URL " +
+                    "-j ${WORKSPACE}/Reports/jmeter_log.log -l ${WORKSPACE}/Reports/results.jtl " +
+                    "-e -o ${WORKSPACE}/Reports/HTML_report"
+                }
+             }
+          }
+          stage("Publish results"){
+          steps{
+             script{
+                perfReport errorFailedThreshold: 10, errorUnstableThreshold: 5,
+                showTrendGraphs: true, sourceDataFiles: 'Reports/*.jtl'
+             }
+          }
+       }
+     }
+     post {
+         always {
+            script{
+                archiveArtifacts artifacts: 'Reports/**'
+           }
         }
+      }
+   }
