@@ -32,12 +32,12 @@ pipeline {
             steps{
                 script{
                     report_name = """${TEST_NAME}_${VUSERS}vUsers"""
-                    bat "C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/jmeter -n -t ${WORKSPACE}/${TEST_NAME}.jmx " +
+                    bat "C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/jmeter -n -t C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/task/${TEST_NAME}.jmx " +
                     "-JVUSERS=$VUSERS -JRAMP_UP=$RAMP_UP -JDURATION=$DURATION -JTHINK_TIME=$THINK_TIME " +
                     "-JTHINK_TIME_DEVIATION=$THINK_TIME_DEVIATION -JPROTOCOL=$PROTOCOL -JENV_URL=$ENV_URL " +
                     "-Jjmeter.reportgenerator.report_title=${report_name} " +
-                    "-j ${WORKSPACE}/${report_name}.log -l ${WORKSPACE}/${report_name}.jtl " +
-                    "-e -o ${WORKSPACE}/HTML_${report_name}"
+                    "-j C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/task/${report_name}.log -l C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/report_flood/${report_name}.jtl " +
+                    "-e -o C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/task/HTML_${report_name}"
                 }
             }
         }
