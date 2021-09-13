@@ -32,7 +32,7 @@ pipeline {
             steps{
                 script{
                     report_name = """${TEST_NAME}_${VUSERS}vUsers"""
-                    bat "C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/jmeter.bat -n -t ${WORKSPACE}/${TEST_NAME}.jmx " +
+                    bat "C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/jmeter -n -t ${WORKSPACE}/${TEST_NAME}.jmx " +
                     "-JVUSERS=$VUSERS -JRAMP_UP=$RAMP_UP -JDURATION=$DURATION -JTHINK_TIME=$THINK_TIME " +
                     "-JTHINK_TIME_DEVIATION=$THINK_TIME_DEVIATION -JPROTOCOL=$PROTOCOL -JENV_URL=$ENV_URL " +
                     "-Jjmeter.reportgenerator.report_title=${report_name} " +
