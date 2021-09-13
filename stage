@@ -1,60 +1,63 @@
 pipeline {
     agent any
+    triggers {
+        parameterizedCron('''''')
+    }
     parameters {
-    choice(choices: ['flood_challenger.jmx'],
-    description: '',
-    name: 'TEST_NAME')
-    string(defaultValue: "2", description: 'Number of users to simulate.', name: 'VUSERS')
-    string(defaultValue: "5", description: 'In seconds.Ramp_up is the amount of time it will take to add all test users (threads) to test execution.', name: 'RAMP_UP')
-    string(defaultValue: "10", description: 'Duration of the test execution in seconds', name: 'DURATION')
-    string(defaultValue: "1000", description: 'Think time, in ms', name: 'THINK_TIME')
-    string(defaultValue: "500", description: 'Think time deviation', name: 'THINK_TIME_DEVIATION')
-    string(defaultValue: "https", description: '' , name: 'ENV_URL')
-    string(defaultValue: "challenge.flood.io", description: '' , name: 'ENV_URL')
+        choice(choices: ['flood_challenger.jmx'], description: '', name: 'TEST_NAME')
+        string(defaultValue: "1", description: 'Number of users.', name: 'VUSERS')
+        string(defaultValue: "1", description: 'In seconds.' +
+                    'Ramp-up is the amount of time.', name: 'RAMP_UP')
+        string(defaultValue: "10", description: 'Duration of the test execution.', name: 'DURATION')
+        string(defaultValue: "1000", description: 'Think time, in ms', name: 'THINK_TIME')
+        string(defaultValue: "500", description: 'Think time deviation, in ms', name: 'THINK_TIME_DEVIATION')
+        string(defaultValue: "https", description: '', name: 'PROTOCOL')
+        string(defaultValue: "challengers.flood.io", description: '', name: 'ENV_URL')
     }
     options {
-       timestamps()
-       buildDiscarder(logRotator(daysToKeepStr: '1', artifactDaysToKeepStr: '1',
-         numToKeepStr: '1', artifactNumToKeepStr: '1'))
-       disableConcurrentBuilds()
+        timestamps()
+        buildDiscarder(logRotator(daysToKeepStr: '30', artifactDaysToKeepStr: '30',
+         numToKeepStr: '20', artifactNumToKeepStr: '20'))
+        disableConcurrentBuilds()
     }
     stages {
-       stage('Initialize Build') {
-          steps {
-              script{
-              deleteDir()
-              git branch: 'main', url: 'https://github.com/Sergei-Sych/SergeiSych.git'
-              bat "mkdir report_flood/Reports"
-              currentBuild.description = TEST_NAME + " - " + ENV_URL + " Environment - " + VUSERS + " Users - " + DURATION + "s DURATION"
-              }
-          }
-       }
-       stage('Test execution'){
-          steps{
-             script{
-                    bat "export 'JVM_ARGS=${JVM_ARGS}'"
-                    bat "C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/jmeter.bat -n -t C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/task/${TEST_NAME}.jmx " +
+        stage('Initialize Build') {
+            steps {
+                script{
+                    deleteDir()
+                    git branch: 'main', url: 'https://github.com/Sergei-Sych/SergeiSych.git'
+                    bat "mkdir ${WORKSPACE}/Reports"
+                    currentBuild.description = TEST_NAME + ", " + ENV_URL + ", " + VUSERS + " Users, " + DURATION + "s Duration"
+                }
+            }
+        }
+        stage('Test execution'){
+            steps{
+                script{
+                    report_name = """${TEST_NAME}_${VUSERS}vUsers"""
+                    bat "C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/jmeter.bat -n -t ${WORKSPACE}/scripts/${TEST_NAME}.jmx " +
                     "-JVUSERS=$VUSERS -JRAMP_UP=$RAMP_UP -JDURATION=$DURATION -JTHINK_TIME=$THINK_TIME " +
                     "-JTHINK_TIME_DEVIATION=$THINK_TIME_DEVIATION -JPROTOCOL=$PROTOCOL -JENV_URL=$ENV_URL " +
-                    "-j C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/jtl/jmeter_log.log -l C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/jtl/results.jtl " +
-                    "-e -o C:/Users/Siarhei_Sych/Downloads/apache-jmeter-5.4.1/bin/report_flood/HTML_report"
+                    "-Jjmeter.reportgenerator.report_title=${report_name} " +
+                    "-j ${WORKSPACE}/Reports/${report_name}.log -l ${WORKSPACE}/Reports/${report_name}.jtl " +
+                    "-e -o ${WORKSPACE}/Reports/HTML_${report_name}"
                 }
-             }
-          }
-          stage("Publish results"){
-          steps{
-             script{
-                perfReport errorFailedThreshold: 8, errorUnstableThreshold: 5,
-                showTrendGraphs: true, sourceDataFiles: 'Reports/*.jtl'
-             }
-          }
-       }
-     }
-     post {
-         always {
+            }
+        }
+        stage('Publish results'){
+            steps{
+                script{
+                    perfReport errorFailedThreshold: 10, errorUnstableThreshold: 5,
+                     showTrendGraphs: true, sourceDataFiles: 'Reports/*.jtl'
+                }
+            }
+        }
+    }
+    post {
+        always {
             script{
                 archiveArtifacts artifacts: 'Reports/**'
-           }
+            }
         }
-      }
-   }
+    }
+}
