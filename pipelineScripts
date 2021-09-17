@@ -32,6 +32,7 @@ pipeline {
        stage('Test execution'){
           steps{
              script{
+                    report_name = """${TEST_NAME}_${VUSERS}vUsers_\$(date + '%m_%d_%Y_%H_%M')"""
                     sh "mint@mint:~/jmeter/bin/jmeter.sh -n -t mint@mint:~/jmeter/bin/task/${TEST_NAME}.jmx "    +
                     "-JVUSERS=$VUSERS -JRAMP_UP=$RAMP_UP -JDURATION=$DURATION -JTHINK_TIME=$THINK_TIME " +
                     "-JTHINK_TIME_DEVIATION=$THINK_TIME_DEVIATION -JPROTOCOL=$PROTOCOL -JENV_URL=$ENV_URL " +
