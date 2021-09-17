@@ -46,7 +46,7 @@ pipeline {
           steps{
              script{
                 perfReport errorFailedThreshold: 10, errorUnstableThreshold: 5,
-                showTrendGraphs: true, sourceDataFiles: 'Reports/*.jtl'
+                showTrendGraphs: true, sourceDataFiles: 'Report/*.jtl'
              }
           }
        }
@@ -54,7 +54,7 @@ pipeline {
      post {
          always {
             script{
-                archiveArtifacts artifacts: 'Reports/**'
+                archiveArtifacts artifacts: 'Report/**'
            }
         }
       }
